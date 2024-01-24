@@ -29,9 +29,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "i2c_manager.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 #include "sensirion_i2c_hal.h"
 #include "sensirion_common.h"
 #include "sensirion_config.h"
+
+#define SCD40_I2C_ADDR 0x62
 
 /*
  * INSTRUCTIONS
@@ -63,14 +69,14 @@ int16_t sensirion_i2c_hal_select_bus(uint8_t bus_idx) {
  * communication.
  */
 void sensirion_i2c_hal_init(void) {
-    /* TODO:IMPLEMENT */
+    // No-op, init happens automatically on read/write
 }
 
 /**
  * Release all resources initialized by sensirion_i2c_hal_init().
  */
 void sensirion_i2c_hal_free(void) {
-    /* TODO:IMPLEMENT or leave empty if no resources need to be freed */
+    // No-op
 }
 
 /**
@@ -84,8 +90,7 @@ void sensirion_i2c_hal_free(void) {
  * @returns 0 on success, error code otherwise
  */
 int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t* data, uint16_t count) {
-    /* TODO:IMPLEMENT */
-    return NOT_IMPLEMENTED_ERROR;
+    return i2c_manager_read(I2C_NUM_0, SCD40_I2C_ADDR, address, data, count);
 }
 
 /**
@@ -101,8 +106,7 @@ int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t* data, uint16_t count) {
  */
 int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t* data,
                                uint16_t count) {
-    /* TODO:IMPLEMENT */
-    return NOT_IMPLEMENTED_ERROR;
+    return i2c_manager_read(I2C_NUM_0, SCD40_I2C_ADDR, address, (uint8_t*)data, count);
 }
 
 /**
@@ -114,5 +118,5 @@ int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t* data,
  * @param useconds the sleep time in microseconds
  */
 void sensirion_i2c_hal_sleep_usec(uint32_t useconds) {
-    /* TODO:IMPLEMENT */
+    vTaskDelay(useconds / 1000 / portTICK_PERIOD_MS);
 }
