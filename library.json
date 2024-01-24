@@ -1,0 +1,10 @@
+{
+  "name": "SCD40",
+  "version": "0.0.0",
+  "build": {
+    "includeDir": ".",
+    "srcDir": ".",
+    "headers": "scd4x_i2c.h",
+    "srcFilter": ["+<*>", "-<sample-implementations/*>", "-<tests/*>"]
+  }
+}
