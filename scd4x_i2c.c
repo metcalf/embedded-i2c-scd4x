@@ -47,9 +47,10 @@ int16_t scd4x_start_periodic_measurement() {
     int16_t error;
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x21B1);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x21B1);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -62,22 +63,24 @@ int16_t scd4x_read_measurement_ticks(uint16_t* co2, uint16_t* temperature,
     int16_t error;
     uint8_t buffer[9];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0xEC05);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0xEC05);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
 
     sensirion_i2c_hal_sleep_usec(1000);
 
-    error = sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 6);
+    error =
+        scd_sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 6);
     if (error) {
         return error;
     }
-    *co2 = sensirion_common_bytes_to_uint16_t(&buffer[0]);
-    *temperature = sensirion_common_bytes_to_uint16_t(&buffer[2]);
-    *humidity = sensirion_common_bytes_to_uint16_t(&buffer[4]);
+    *co2 = scd_sensirion_common_bytes_to_uint16_t(&buffer[0]);
+    *temperature = scd_sensirion_common_bytes_to_uint16_t(&buffer[2]);
+    *humidity = scd_sensirion_common_bytes_to_uint16_t(&buffer[4]);
     return NO_ERROR;
 }
 
@@ -100,9 +103,10 @@ int16_t scd4x_stop_periodic_measurement() {
     int16_t error;
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3F86);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3F86);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -114,20 +118,22 @@ int16_t scd4x_get_temperature_offset_ticks(uint16_t* t_offset) {
     int16_t error;
     uint8_t buffer[3];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2318);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2318);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
 
     sensirion_i2c_hal_sleep_usec(1000);
 
-    error = sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
+    error =
+        scd_sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
     if (error) {
         return error;
     }
-    *t_offset = sensirion_common_bytes_to_uint16_t(&buffer[0]);
+    *t_offset = scd_sensirion_common_bytes_to_uint16_t(&buffer[0]);
     return NO_ERROR;
 }
 
@@ -147,11 +153,13 @@ int16_t scd4x_set_temperature_offset_ticks(uint16_t t_offset) {
     int16_t error;
     uint8_t buffer[5];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x241D);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x241D);
 
-    offset = sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset, t_offset);
+    offset =
+        scd_sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset, t_offset);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -168,20 +176,22 @@ int16_t scd4x_get_sensor_altitude(uint16_t* sensor_altitude) {
     int16_t error;
     uint8_t buffer[3];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2322);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2322);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
 
     sensirion_i2c_hal_sleep_usec(1000);
 
-    error = sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
+    error =
+        scd_sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
     if (error) {
         return error;
     }
-    *sensor_altitude = sensirion_common_bytes_to_uint16_t(&buffer[0]);
+    *sensor_altitude = scd_sensirion_common_bytes_to_uint16_t(&buffer[0]);
     return NO_ERROR;
 }
 
@@ -189,12 +199,13 @@ int16_t scd4x_set_sensor_altitude(uint16_t sensor_altitude) {
     int16_t error;
     uint8_t buffer[5];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2427);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2427);
 
-    offset = sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset,
-                                                  sensor_altitude);
+    offset = scd_sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset,
+                                                      sensor_altitude);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -206,12 +217,13 @@ int16_t scd4x_set_ambient_pressure(uint16_t ambient_pressure) {
     int16_t error;
     uint8_t buffer[5];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0xE000);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0xE000);
 
-    offset = sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset,
-                                                  ambient_pressure);
+    offset = scd_sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset,
+                                                      ambient_pressure);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -224,23 +236,25 @@ int16_t scd4x_perform_forced_recalibration(uint16_t target_co2_concentration,
     int16_t error;
     uint8_t buffer[5];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x362F);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x362F);
 
-    offset = sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset,
-                                                  target_co2_concentration);
+    offset = scd_sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset,
+                                                      target_co2_concentration);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
 
     sensirion_i2c_hal_sleep_usec(400000);
 
-    error = sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
+    error =
+        scd_sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
     if (error) {
         return error;
     }
-    *frc_correction = sensirion_common_bytes_to_uint16_t(&buffer[0]);
+    *frc_correction = scd_sensirion_common_bytes_to_uint16_t(&buffer[0]);
     return NO_ERROR;
 }
 
@@ -248,20 +262,22 @@ int16_t scd4x_get_automatic_self_calibration(uint16_t* asc_enabled) {
     int16_t error;
     uint8_t buffer[3];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2313);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2313);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
 
     sensirion_i2c_hal_sleep_usec(1000);
 
-    error = sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
+    error =
+        scd_sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
     if (error) {
         return error;
     }
-    *asc_enabled = sensirion_common_bytes_to_uint16_t(&buffer[0]);
+    *asc_enabled = scd_sensirion_common_bytes_to_uint16_t(&buffer[0]);
     return NO_ERROR;
 }
 
@@ -269,12 +285,13 @@ int16_t scd4x_set_automatic_self_calibration(uint16_t asc_enabled) {
     int16_t error;
     uint8_t buffer[5];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2416);
-
     offset =
-        sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset, asc_enabled);
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2416);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    offset = scd_sensirion_i2c_add_uint16_t_to_buffer(&buffer[0], offset,
+                                                      asc_enabled);
+
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -285,9 +302,10 @@ int16_t scd4x_set_automatic_self_calibration(uint16_t asc_enabled) {
 int16_t scd4x_start_low_power_periodic_measurement() {
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x21AC);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x21AC);
 
-    return sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    return scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
 }
 
 int16_t scd4x_get_data_ready_flag(bool* data_ready_flag) {
@@ -295,20 +313,22 @@ int16_t scd4x_get_data_ready_flag(bool* data_ready_flag) {
     uint8_t buffer[3];
     uint16_t offset = 0;
     uint16_t local_data_ready = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0xE4B8);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0xE4B8);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
 
     sensirion_i2c_hal_sleep_usec(1000);
 
-    error = sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
+    error =
+        scd_sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
     if (error) {
         return error;
     }
-    local_data_ready = sensirion_common_bytes_to_uint16_t(&buffer[0]);
+    local_data_ready = scd_sensirion_common_bytes_to_uint16_t(&buffer[0]);
     *data_ready_flag = (local_data_ready & 0x07FF) != 0;
     return NO_ERROR;
 }
@@ -317,9 +337,10 @@ int16_t scd4x_persist_settings() {
     int16_t error;
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3615);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3615);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -332,22 +353,24 @@ int16_t scd4x_get_serial_number(uint16_t* serial_0, uint16_t* serial_1,
     int16_t error;
     uint8_t buffer[9];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3682);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3682);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
 
     sensirion_i2c_hal_sleep_usec(1000);
 
-    error = sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 6);
+    error =
+        scd_sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 6);
     if (error) {
         return error;
     }
-    *serial_0 = sensirion_common_bytes_to_uint16_t(&buffer[0]);
-    *serial_1 = sensirion_common_bytes_to_uint16_t(&buffer[2]);
-    *serial_2 = sensirion_common_bytes_to_uint16_t(&buffer[4]);
+    *serial_0 = scd_sensirion_common_bytes_to_uint16_t(&buffer[0]);
+    *serial_1 = scd_sensirion_common_bytes_to_uint16_t(&buffer[2]);
+    *serial_2 = scd_sensirion_common_bytes_to_uint16_t(&buffer[4]);
     return NO_ERROR;
 }
 
@@ -355,20 +378,22 @@ int16_t scd4x_perform_self_test(uint16_t* sensor_status) {
     int16_t error;
     uint8_t buffer[3];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3639);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3639);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
 
     sensirion_i2c_hal_sleep_usec(10000000);
 
-    error = sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
+    error =
+        scd_sensirion_i2c_read_data_inplace(SCD4X_I2C_ADDRESS, &buffer[0], 2);
     if (error) {
         return error;
     }
-    *sensor_status = sensirion_common_bytes_to_uint16_t(&buffer[0]);
+    *sensor_status = scd_sensirion_common_bytes_to_uint16_t(&buffer[0]);
     return NO_ERROR;
 }
 
@@ -376,9 +401,10 @@ int16_t scd4x_perform_factory_reset() {
     int16_t error;
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3632);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3632);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -390,9 +416,10 @@ int16_t scd4x_reinit() {
     int16_t error;
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3646);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x3646);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -404,9 +431,10 @@ int16_t scd4x_measure_single_shot() {
     int16_t error;
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x219D);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x219D);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -418,9 +446,10 @@ int16_t scd4x_measure_single_shot_rht_only() {
     int16_t error;
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2196);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x2196);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -432,9 +461,10 @@ int16_t scd4x_power_down() {
     int16_t error;
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x36E0);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x36E0);
 
-    error = sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    error = scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     if (error) {
         return error;
     }
@@ -445,10 +475,11 @@ int16_t scd4x_power_down() {
 int16_t scd4x_wake_up() {
     uint8_t buffer[2];
     uint16_t offset = 0;
-    offset = sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x36F6);
+    offset =
+        scd_sensirion_i2c_add_command_to_buffer(&buffer[0], offset, 0x36F6);
 
     // Sensor does not acknowledge the wake-up call, error is ignored
-    (void)sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
+    (void)scd_sensirion_i2c_write_data(SCD4X_I2C_ADDRESS, &buffer[0], offset);
     sensirion_i2c_hal_sleep_usec(20000);
     return NO_ERROR;
 }

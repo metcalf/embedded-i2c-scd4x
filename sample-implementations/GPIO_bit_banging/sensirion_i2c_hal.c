@@ -173,7 +173,7 @@ static int8_t sensirion_wait_while_clock_stretching(void) {
         sensirion_i2c_gpio_sleep_usec(SENSIRION_I2C_CLOCK_PERIOD_USEC);
     }
 
-    return I2C_BUS_ERROR;
+    return STS_I2C_BUS_ERROR;
 }
 
 static int8_t sensirion_i2c_gpio_write_byte(uint8_t data) {
@@ -188,14 +188,14 @@ static int8_t sensirion_i2c_gpio_write_byte(uint8_t data) {
         sensirion_i2c_gpio_SCL_in();
         sensirion_i2c_gpio_sleep_usec(DELAY_USEC);
         if (sensirion_wait_while_clock_stretching())
-            return I2C_BUS_ERROR;
+            return STS_I2C_BUS_ERROR;
     }
     sensirion_i2c_gpio_SCL_out();
     sensirion_i2c_gpio_SDA_in();
     sensirion_i2c_gpio_sleep_usec(DELAY_USEC);
     sensirion_i2c_gpio_SCL_in();
     if (sensirion_wait_while_clock_stretching())
-        return I2C_BUS_ERROR;
+        return STS_I2C_BUS_ERROR;
     nack = (sensirion_i2c_gpio_SDA_read() != 0);
     sensirion_i2c_gpio_SCL_out();
 
@@ -232,7 +232,7 @@ static uint8_t sensirion_i2c_gpio_read_byte(uint8_t ack) {
 static int8_t sensirion_i2c_gpio_start(void) {
     sensirion_i2c_gpio_SCL_in();
     if (sensirion_wait_while_clock_stretching())
-        return I2C_BUS_ERROR;
+        return STS_I2C_BUS_ERROR;
 
     sensirion_i2c_gpio_SDA_out();
     sensirion_i2c_gpio_sleep_usec(DELAY_USEC);
