@@ -37,6 +37,8 @@
 #include "sensirion_config.h"
 #include "sensirion_i2c_hal.h"
 
+#define TICK_PERIOD_US (1000 * portTICK_PERIOD_MS)
+
 /*
  * INSTRUCTIONS
  * ============
@@ -117,5 +119,6 @@ int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t* data,
  * @param useconds the sleep time in microseconds
  */
 void sensirion_i2c_hal_sleep_usec(uint32_t useconds) {
-    vTaskDelay(useconds / 1000 / portTICK_PERIOD_MS);
+    // Round up to the nearest tick
+    vTaskDelay((useconds + TICK_PERIOD_US / 2) / TICK_PERIOD_US);
 }
