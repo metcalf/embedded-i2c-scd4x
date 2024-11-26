@@ -30,7 +30,7 @@
  */
 
 #include "sensirion_i2c.h"
-#include "sensirion_common.h"
+#include "scd4x_sensirion_common.h"
 #include "sensirion_config.h"
 #include "sensirion_i2c_hal.h"
 

@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "sensirion_common.h"
+#include "scd4x_sensirion_common.h"
 #include "sensirion_config.h"
 
 uint16_t scd_sensirion_common_bytes_to_uint16_t(const uint8_t* bytes) {

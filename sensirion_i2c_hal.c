@@ -33,7 +33,7 @@
 #include "freertos/task.h"
 #include "i2c_manager.h"
 
-#include "sensirion_common.h"
+#include "scd4x_sensirion_common.h"
 #include "sensirion_config.h"
 #include "sensirion_i2c_hal.h"
 
