@@ -31,7 +31,7 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "i2c_manager.h"
+#include "i2c_bus.h"
 
 #include "scd4x_sensirion_common.h"
 #include "sensirion_config.h"
@@ -90,7 +90,7 @@ void sensirion_i2c_hal_free(void) {
  * @returns 0 on success, error code otherwise
  */
 int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t* data, uint16_t count) {
-    return i2c_manager_read(I2C_NUM_0, address, I2C_NO_REG, data, count);
+    return i2c_bus_read(address, data, count);
 }
 
 /**
@@ -106,8 +106,7 @@ int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t* data, uint16_t count) {
  */
 int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t* data,
                                uint16_t count) {
-    return i2c_manager_write(I2C_NUM_0, address, I2C_NO_REG, (uint8_t*)data,
-                             count);
+    return i2c_bus_write(address, (uint8_t*)data, count);
 }
 
 /**
